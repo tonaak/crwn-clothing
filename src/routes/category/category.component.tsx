@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -10,7 +10,11 @@ import {
   selectCategoriesMap,
 } from '../../store/categories/category.selector';
 
-import { CategoryContainer, Title } from './category.styles';
+import {
+  CategoryBodyContainer,
+  CategoryContainer,
+  Title,
+} from './category.styles';
 
 type CategoryRouteParams = {
   category: string;
@@ -33,7 +37,7 @@ const Category = () => {
   }, []);
 
   return (
-    <Fragment>
+    <CategoryBodyContainer>
       <Title>{category.toUpperCase()}</Title>
       {isLoading ? (
         <Spinner />
@@ -45,7 +49,7 @@ const Category = () => {
             ))}
         </CategoryContainer>
       )}
-    </Fragment>
+    </CategoryBodyContainer>
   );
 };
 
