@@ -9,6 +9,8 @@ import App from './App';
 import { store, persistor } from './store/store';
 import { stripePromise } from './utils/stripe/stripe.utils';
 
+import * as serviceWorker from './service-worker';
+
 import './index.scss';
 
 import reportWebVitals from './reportWebVitals';
@@ -27,6 +29,8 @@ root.render(
     </Provider>
   </React.StrictMode>
 );
+
+serviceWorker.register();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
