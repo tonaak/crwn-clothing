@@ -9,7 +9,7 @@ import App from './App';
 import { store, persistor } from './store/store';
 import { stripePromise } from './utils/stripe/stripe.utils';
 
-import * as serviceWorker from './service-worker';
+import * as serviceWorker from './serviceWorkerRegistration';
 
 import './index.scss';
 
