@@ -8,11 +8,21 @@ export const ProductCardContainer = styled.div`
   align-items: center;
   position: relative;
 
-  img {
+  a {
     width: 100%;
-    height: 95%;
-    object-fit: cover;
-    margin-bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    align-items: center;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 95%;
+      object-fit: cover;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
   }
 
   button {
@@ -62,6 +72,7 @@ export const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   font-size: 18px;
+  cursor: pointer;
 `;
 
 export const Name = styled.span`

@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { addItemToCart } from '../../store/cart/cart.action';
 import { selectCartItems } from '../../store/cart/cart.selector';
@@ -15,10 +16,11 @@ import {
 
 type ProductProps = {
   product: CategoryItem;
+  title: string;
 };
 
-const ProductCard = ({ product }: ProductProps) => {
-  const { name, price, imageUrl } = product;
+const ProductCard = ({ product, title }: ProductProps) => {
+  const { id, name, price, imageUrl } = product;
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
 
@@ -26,11 +28,24 @@ const ProductCard = ({ product }: ProductProps) => {
 
   return (
     <ProductCardContainer>
-      <img src={imageUrl} alt={`${name}`} />
-      <Footer>
-        <Name>{name}</Name>
-        <Price>{price}</Price>
-      </Footer>
+      {title !== '' && (
+        <Link to={`${title}/product/${id}`}>
+          <img src={imageUrl} alt={`${name}`} />
+          <Footer>
+            <Name>{name}</Name>
+            <Price>{price}</Price>
+          </Footer>
+        </Link>
+      )}
+      {title === '' && (
+        <Link to={`product/${id}`}>
+          <img src={imageUrl} alt={`${name}`} />
+          <Footer>
+            <Name>{name}</Name>
+            <Price>{price}</Price>
+          </Footer>
+        </Link>
+      )}
       <Button
         buttonType={BUTTON_TYPE_CLASSES.inverted}
         onClick={addProductToCart}

@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import CategoriesPreview from '../categories-preview/categories-preview.component';
 import Category from '../category/category.component';
+import ProductDetail from '../product-detail/product-detail.component';
 import { fetchCategoriesStart } from '../../store/categories/category.action';
 
 const Shop = () => {
@@ -17,6 +18,7 @@ const Shop = () => {
     <Routes>
       <Route index element={<CategoriesPreview />}></Route>
       <Route path=":category" element={<Category />}></Route>
+      <Route path=":category/product/:id" element={<ProductDetail />}></Route>
     </Routes>
   );
 };
