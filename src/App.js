@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import { checkUserSession } from './store/user/user.action';
 import Spinner from './components/spinner/spinner.component';
+import NotFound from './routes/not-found/not-found.component';
 
 const Home = lazy(() => import('./routes/home/home.component'));
 const Navigation = lazy(() =>
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="shop/*" element={<Shop />} />
           <Route path="auth" element={<Authentication />} />
           <Route path="checkout" element={<Checkout />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </Suspense>

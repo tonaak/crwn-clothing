@@ -7,7 +7,10 @@ import {
   selectCategoriesMap,
 } from '../../store/categories/category.selector';
 import { selectCartItems } from '../../store/cart/cart.selector';
-import { addItemToCart } from '../../store/cart/cart.action';
+import {
+  addItemToCart,
+  addItemToCartWithQuantity,
+} from '../../store/cart/cart.action';
 
 import { CategoryItem } from '../../store/categories/category.types';
 import Spinner from '../../components/spinner/spinner.component';
@@ -23,6 +26,9 @@ import {
   ProductImage,
   Title,
   Category,
+  Quantity,
+  QuantityButton,
+  PriceContainer,
 } from './product-detail.styles';
 
 type ProductDetailParams = {
@@ -37,7 +43,13 @@ const ProductDetail = () => {
   >() as ProductDetailParams;
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
-  const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
+  const addProductToCart = () => {
+    if (quantity === 1) {
+      dispatch(addItemToCart(cartItems, product));
+    } else {
+      dispatch(addItemToCartWithQuantity(cartItems, product, quantity));
+    }
+  };
 
   const categoriesMap = useSelector(selectCategoriesMap);
   const isLoading = useSelector(selectCategoriesIsLoading);
@@ -45,12 +57,24 @@ const ProductDetail = () => {
   const [product, setProduct] = useState({
     id: 0,
     imageUrl: '',
-    name: '',
+    name: 'Oops! This product does not exist',
     price: 0,
   });
+  const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(product.price);
 
   const getProduct = (productId: string, products: CategoryItem[]) => {
     return products.find((product) => product.id.toString() === productId);
+  };
+
+  const decrease = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const increase = () => {
+    setQuantity(quantity + 1);
   };
 
   useEffect(() => {
@@ -66,6 +90,10 @@ const ProductDetail = () => {
     }
   }, [product, id, products]);
 
+  useEffect(() => {
+    setPrice(quantity * product.price);
+  }, [quantity, product.price]);
+
   return (
     <Fragment>
       {isLoading ? (
@@ -74,7 +102,7 @@ const ProductDetail = () => {
         <ProductDetailContainer>
           <ProductImage src={product.imageUrl} />
           <DetailsContainer>
-            <Category>{category}</Category>
+            <Category to={`/shop/${category}`}>{category}</Category>
             <Title>{product.name}</Title>
             <Description>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
@@ -83,10 +111,18 @@ const ProductDetail = () => {
               necessitatibus. Unde, quis accusamus. Consequatur, deleniti
               possimus!
             </Description>
-            <Price>${product.price}.00</Price>
+            <PriceContainer>
+              <Price>${price}.00</Price>
+              <Quantity>
+                <QuantityButton onClick={decrease}>&#8722;</QuantityButton>
+                <span>{quantity}</span>
+                <QuantityButton onClick={increase}>&#43;</QuantityButton>
+              </Quantity>
+            </PriceContainer>
             <Button
               buttonType={BUTTON_TYPE_CLASSES.base}
               onClick={addProductToCart}
+              disabled={product.id === 0}
             >
               Add to cart
             </Button>

@@ -16,7 +16,7 @@ export const CheckoutItemContainer = styled.div`
 
 export const ImageContainer = styled.div`
   width: 22%;
-  padding-right: 15px;
+  padding-right: 18px;
   img {
     width: 100%;
     height: 100%;
@@ -25,6 +25,7 @@ export const ImageContainer = styled.div`
 
 export const BaseSpan = styled.span`
   width: 23%;
+  margin-left: 5px;
 
   @media screen and (max-width: 800px) {
     width: 22%;

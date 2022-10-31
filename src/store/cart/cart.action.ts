@@ -26,6 +26,26 @@ const addCartItem = (
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+const addCartItemWithQuantity = (
+  cartItems: CartItem[],
+  productToAdd: CategoryItem,
+  quantityToAdd: number
+): CartItem[] => {
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === productToAdd.id
+  );
+
+  if (existingCartItem) {
+    return cartItems.map((cartItem) =>
+      cartItem.id === productToAdd.id
+        ? { ...cartItem, quantity: cartItem.quantity + quantityToAdd }
+        : cartItem
+    );
+  }
+
+  return [...cartItems, { ...productToAdd, quantity: quantityToAdd }];
+};
+
 const removeCartItem = (
   cartItems: CartItem[],
   cartItemToRemove: CartItem
@@ -76,6 +96,19 @@ export const addItemToCart = (
   productToAdd: CategoryItem
 ) => {
   const newCartItems = addCartItem(cartItems, productToAdd);
+  return setCartItems(newCartItems);
+};
+
+export const addItemToCartWithQuantity = (
+  cartItems: CartItem[],
+  productToAdd: CategoryItem,
+  quantityToAdd: number
+) => {
+  const newCartItems = addCartItemWithQuantity(
+    cartItems,
+    productToAdd,
+    quantityToAdd
+  );
   return setCartItems(newCartItems);
 };
 

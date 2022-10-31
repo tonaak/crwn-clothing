@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const ProductDetailContainer = styled.div`
@@ -18,6 +19,7 @@ export const ProductImage = styled.img`
   width: 100%;
   height: 100%;
   margin: 20px;
+  object-fit: cover;
 `;
 
 export const DetailsContainer = styled.div`
@@ -35,7 +37,7 @@ export const DetailsContainer = styled.div`
   }
 `;
 
-export const Category = styled.span`
+export const Category = styled(Link)`
   text-transform: uppercase;
   color: #3f3d3d;
 `;
@@ -54,4 +56,35 @@ export const Description = styled.p`
 export const Price = styled.span`
   font-size: 30px;
   font-weight: 700;
+`;
+
+export const Quantity = styled.div`
+  background: #ddd;
+  width: 40%;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const QuantityButton = styled.span`
+  font-weight: 700;
+  width: 35%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #ccc;
+    cursor: pointer;
+    user-select: none;
+  }
+`;
+
+export const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
