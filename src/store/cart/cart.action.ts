@@ -7,6 +7,8 @@ import {
   ActionWithPayload,
 } from '../../utils/reducer/reducer.utils';
 
+import Swal from 'sweetalert2';
+
 const addCartItem = (
   cartItems: CartItem[],
   productToAdd: CategoryItem
@@ -96,6 +98,14 @@ export const addItemToCart = (
   productToAdd: CategoryItem
 ) => {
   const newCartItems = addCartItem(cartItems, productToAdd);
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: `${productToAdd.name}`,
+    text: 'has been added to your cart.',
+    showConfirmButton: false,
+    timer: 1000,
+  });
   return setCartItems(newCartItems);
 };
 
@@ -109,6 +119,14 @@ export const addItemToCartWithQuantity = (
     productToAdd,
     quantityToAdd
   );
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: `${productToAdd.name}`,
+    text: 'has been added to your cart.',
+    showConfirmButton: false,
+    timer: 1000,
+  });
   return setCartItems(newCartItems);
 };
 

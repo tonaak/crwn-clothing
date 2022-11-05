@@ -1,7 +1,11 @@
 import { takeLatest, put, all, call } from 'typed-redux-saga/macro';
+
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 import { User } from 'firebase/auth';
 
 import { USER_ACTION_TYPES } from './user.types';
+
+import Swal from 'sweetalert2';
 
 import {
   signInSucess,
@@ -57,9 +61,36 @@ export function* signInWithEmail({
     if (userCredential) {
       const { user } = userCredential;
       yield* call(getSnapshotFromUserAuth, user);
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Login successful',
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   } catch (error) {
     yield* put(signInFailed(error as Error));
+    switch ((error as AuthError).code) {
+      case AuthErrorCodes.USER_DELETED:
+        Swal.fire({
+          icon: 'error',
+          title: `Account with this email does not exist`,
+        });
+        break;
+      case AuthErrorCodes.INVALID_PASSWORD:
+        Swal.fire({
+          icon: 'error',
+          title: 'Wrong password',
+        });
+        break;
+      default:
+        Swal.fire({
+          icon: 'error',
+          title: 'Sign In Error',
+          text: (error as AuthError).message,
+        });
+    }
   }
 }
 
@@ -67,8 +98,20 @@ export function* signInWithGoogle() {
   try {
     const { user } = yield* call(signInWithGooglePopup);
     yield* call(getSnapshotFromUserAuth, user);
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Login successful',
+      showConfirmButton: false,
+      timer: 1000,
+    });
   } catch (error) {
     yield* put(signInFailed(error as Error));
+    Swal.fire({
+      icon: 'error',
+      title: 'Sign In Error',
+      text: (error as Error).message,
+    });
   }
 }
 
@@ -95,9 +138,36 @@ export function* signUp({
     if (userCredential) {
       const { user } = userCredential;
       yield* put(signUpSuccess(user, { displayName }));
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Sign up successful',
+        showConfirmButton: false,
+        timer: 1000,
+      });
     }
   } catch (error) {
     yield* put(signUpFailed(error as Error));
+    switch ((error as AuthError).code) {
+      case AuthErrorCodes.WEAK_PASSWORD:
+        Swal.fire({
+          icon: 'error',
+          title: 'Password should be at least 6 characters',
+        });
+        break;
+      case AuthErrorCodes.EMAIL_EXISTS:
+        Swal.fire({
+          icon: 'error',
+          title: 'Email already in use',
+        });
+        break;
+      default:
+        Swal.fire({
+          icon: 'error',
+          title: 'Sign Up Error',
+          text: (error as AuthError).message,
+        });
+    }
   }
 }
 

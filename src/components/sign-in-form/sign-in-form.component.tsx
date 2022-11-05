@@ -34,12 +34,8 @@ const SignInForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      dispatch(emailSignInStart(email, password));
-      resetFormFields();
-    } catch (error) {
-      console.log('user sign in failed', error);
-    }
+    dispatch(emailSignInStart(email, password));
+    resetFormFields();
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
